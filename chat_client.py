@@ -13,7 +13,7 @@ Fecha: 16-06-2017
 # Importamos la libreria para manejar JSON
 import json
 # Importamos la libreria para manejar fechas
-from datetime import date
+from datetime import datetime
 # Importamos la libreria para rutas de archivos
 from os import path
 
@@ -22,7 +22,7 @@ from os import path
 nombre_archivo = 'chat.json'
 ruta_archivo = '../' + nombre_archivo
 autor = 'Leonel'
-fecha_actual = date.today().strftime("%d-%m-%Y")
+fecha_actual = datetime.now().strftime("%d-%m-%Y")
 
 
 def genera_archivo_json(diccionario, nombre_archivo):
@@ -49,7 +49,11 @@ def ver_chat(ruta_archivo, nombre_archivo):
         print '-----------------------'
 
         for z in x['chat']:
-            print '%s -> %s' % (z['nombre_autor'], z['mensaje'])
+            print '(%s) %s -> %s' % (
+                z['hora'],
+                z['nombre_autor'],
+                z['mensaje']
+            )
 
 
 def actualiza_chat(nombre_archivo, autor, fecha_actual):
@@ -57,7 +61,11 @@ def actualiza_chat(nombre_archivo, autor, fecha_actual):
     chat_contenedor = lee_archivo_json(nombre_archivo)
     print '+++++++++++++++++++++++'
     mensaje = raw_input('Escriba su mensaje: ')
-    chat_dia = {'nombre_autor': autor, 'mensaje': mensaje}
+    chat_dia = {
+        'hora': datetime.now().strftime("%H:%M:%S"),
+        'nombre_autor': autor,
+        'mensaje': mensaje
+    }
 
     ultima_fecha = chat_contenedor['chat_game'][-1]['chat_fecha']
     if ultima_fecha == fecha_actual:
@@ -88,7 +96,11 @@ def gestiona_chat(ruta_archivo, nombre_archivo, autor, fecha_actual):
     if not path.exists(ruta_archivo):
         print 'No existen conversaciones anteriores.'
         mensaje = raw_input('Escriba su mensaje: ')
-        chat_dia = {'nombre_autor': autor, 'mensaje': mensaje}
+        chat_dia = {
+            'hora': datetime.now().strftime("%H:%M:%S"),
+            'nombre_autor': autor,
+            'mensaje': mensaje
+        }
         chat_lista = {'chat_fecha': fecha_actual, 'chat': [chat_dia]}
         chat_contenedor = {'chat_game': [chat_lista]}
         genera_archivo_json(chat_contenedor, ruta_archivo)

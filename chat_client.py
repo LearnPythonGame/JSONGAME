@@ -19,10 +19,22 @@ from os import path
 
 
 # Variables generales
-nombre_archivo = 'chat.json'
+nombre_archivo = 'chat_json.json'
 ruta_archivo = '../' + nombre_archivo
 autor = 'Leonel'
-fecha_actual = datetime.now().strftime("%d-%m-%Y")
+fecha_actual = datetime.today().strftime("%d-%m-%Y")
+
+
+def compara_fecha(fecha_1, fecha_2):
+    """Compara dos fechas.
+
+    Devuelve True si las fechas son iguales.
+    """
+    fecha_1 = datetime.strptime(fecha_1, '%d-%m-%Y')
+    fecha_2 = datetime.strptime(fecha_2, '%d-%m-%Y')
+
+    if fecha_1 == fecha_2:
+        return True
 
 
 def genera_archivo_json(diccionario, nombre_archivo):
@@ -62,13 +74,13 @@ def actualiza_chat(nombre_archivo, autor, fecha_actual):
     print '+++++++++++++++++++++++'
     mensaje = raw_input('Escriba su mensaje: ')
     chat_dia = {
-        'hora': datetime.now().strftime("%H:%M:%S"),
+        'hora': datetime.today().strftime("%H:%M:%S"),
         'nombre_autor': autor,
         'mensaje': mensaje
     }
 
     ultima_fecha = chat_contenedor['chat_game'][-1]['chat_fecha']
-    if ultima_fecha == fecha_actual:
+    if compara_fecha(ultima_fecha, fecha_actual):
         chat_contenedor['chat_game'][-1]['chat'].append(chat_dia)
     else:
         chat_lista = {'chat_fecha': fecha_actual, 'chat': [chat_dia]}
@@ -97,7 +109,7 @@ def gestiona_chat(ruta_archivo, nombre_archivo, autor, fecha_actual):
         print 'No existen conversaciones anteriores.'
         mensaje = raw_input('Escriba su mensaje: ')
         chat_dia = {
-            'hora': datetime.now().strftime("%H:%M:%S"),
+            'hora': datetime.today().strftime("%H:%M:%S"),
             'nombre_autor': autor,
             'mensaje': mensaje
         }

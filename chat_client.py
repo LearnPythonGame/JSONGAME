@@ -42,14 +42,14 @@ def ver_chat(ruta_archivo, nombre_archivo):
     chat_contenedor = lee_archivo_json(ruta_archivo)
 
     print ''
-    print 'Mensajes contenidos en: ' + nombre_archivo
+    print 'Mensajes contenidos en: %s' % nombre_archivo
     for x in chat_contenedor['chat_game']:
         print '***********************'
         print x['chat_fecha']
         print '-----------------------'
 
         for z in x['chat']:
-            print z['nombre_autor'] + ' -> ' + z['mensaje']
+            print '%s -> %s' % (z['nombre_autor'], z['mensaje'])
 
 
 def actualiza_chat(nombre_archivo, autor, fecha_actual):
@@ -96,6 +96,7 @@ def gestiona_chat(ruta_archivo, nombre_archivo, autor, fecha_actual):
     else:
         interaccion_chat(nombre_archivo, ruta_archivo, autor, fecha_actual)
 
+# Para interaccion con la ejecucion del script.
 while True:
     print ''
     print 'Opciones de la aplicacion'
